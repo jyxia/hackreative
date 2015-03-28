@@ -1,4 +1,5 @@
 
+
 var Store = function(id, latitude, longitude, sales) {
     this.id = id;
     this.latitude = latitude;
