@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Heatmaps</title>
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  </head>
+
+  <body>
+    <div id="panel">
+      <button id="sales_btn"> sales </button>
+      <button id="visits_btn"> visits </button>
+      <button id="quantity_btn"> quantity </button>
+      <button id="salesvisit_btn"> sales/visit </button>      
+      <button id="salequantity_btn"> sales/quantity </button>
+
+    </div>
+
+    <div id="map-canvas">
+    </div>
+    <div id="timeslider" style="width:200px;"></div>
+
+    <!-- place js here to load page faster -->
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=visualization"></script>
+    <script type="text/javascript" src="./js/heatmap.js"></script>
+  </body>
+</html>
