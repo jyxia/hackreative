@@ -1,3 +1,7 @@
+/**
+* Team: Hackreative
+* A heatmap for several types of data based on location
+*/
 
 var Store = function(id, latitude, longitude, sales) {
     this.id = id;
@@ -6,55 +10,9 @@ var Store = function(id, latitude, longitude, sales) {
     this.sales = sales;
 };
 
-// parse the store JSON data
-// var parseStoresJSON = function (finishparsing) {
-//     var stores = [];
-//     $.getJSON({
-//         url: "./data/data.json",
-//         success: function(data) {
-//             for (var i = 0; i < data.data.length; i++) {
-//                 var data = data.data[i];
-//                 var id = data.store;
-//                 var latitude = data.storelat;
-//                 var longitude = data.storelon;
-//                 // var purchases = data.purchases;
-//                 var store = new Store(id, latitude, longitude);
-//                 stores.push(store);
-//                 finishdata(stores);
-//             }
-//         }
-//     });
-//     return stores;
-// };
-
 // convert a location to Google location
 var locationDataToGMapData = function (latitude, longitude, sales) {
     return { location: new google.maps.LatLng(latitude, longitude), weight: sales };
-};
-
-
-var toggleHeatmap = function() {
-  heatmap.setMap(heatmap.getMap() ? null : map);
-};
-
-var changeGradient = function() {
-  var gradient = [
-    'rgba(0, 255, 255, 0)',
-    'rgba(0, 255, 255, 1)',
-    'rgba(0, 191, 255, 1)',
-    'rgba(0, 127, 255, 1)',
-    'rgba(0, 63, 255, 1)',
-    'rgba(0, 0, 255, 1)',
-    'rgba(0, 0, 223, 1)',
-    'rgba(0, 0, 191, 1)',
-    'rgba(0, 0, 159, 1)',
-    'rgba(0, 0, 127, 1)',
-    'rgba(63, 0, 91, 1)',
-    'rgba(127, 0, 63, 1)',
-    'rgba(191, 0, 31, 1)',
-    'rgba(255, 0, 0, 1)'
-  ]
-  heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
 };
 
 // Map object for the entire map
@@ -67,7 +25,6 @@ var generateMap = function () {
 
     return new google.maps.Map(document.getElementById('map-canvas'),
           mapOptions);
-
 };
 
 // Map object for the entire map
@@ -209,16 +166,44 @@ var determineWeight = function(data, filter) {
             weight = data.sum_quantity;
             break;
         case "salesvisit":
-            weight = data.sum_sales / data.visit;
+            if (data.visit == 0) {
+                weight = 0;
+            } else {
+                weight = data.sum_sales / data.visit;
+            }
             break;
         case "salesquantity":
-            weight = data.sum_sales / data.sum_quantity;
+            if (data.sum_quantity == 0)  {
+                weight = 0;
+            } else {
+                weight = data.sum_sales / data.sum_quantity;
+            }
             break;
         default:
             weight = data.sum_sales;
     }
 
     return weight;
+};
+
+var changeGradient = function() {
+  var gradient = [
+    'rgba(0, 255, 255, 0)',
+    'rgba(0, 255, 255, 1)',
+    'rgba(0, 191, 255, 1)',
+    'rgba(0, 127, 255, 1)',
+    'rgba(0, 63, 255, 1)',
+    'rgba(0, 0, 255, 1)',
+    'rgba(0, 0, 223, 1)',
+    'rgba(0, 0, 191, 1)',
+    'rgba(0, 0, 159, 1)',
+    'rgba(0, 0, 127, 1)',
+    'rgba(63, 0, 91, 1)',
+    'rgba(127, 0, 63, 1)',
+    'rgba(191, 0, 31, 1)',
+    'rgba(255, 0, 0, 1)'
+  ]
+  heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
 };
 
 $( document ).ready(function() {
@@ -230,6 +215,8 @@ $( document ).ready(function() {
     var $quantity_btn = $("#quantity_btn");
     var $salesvisit_btn = $("#salesvisit_btn");
     var $salequantity_btn = $("#salequantity_btn");
+    var $radioButtons = $("#radio");
+    $radioButtons.buttonset();
 
     var initJSONurl = "./data/data09.json";
     // var map = generateMap();

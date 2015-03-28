@@ -7,13 +7,17 @@ html, body, #map-canvas {
 #panel {
   position: absolute;
   top: 5px;
-  left: 50%;
+  left: 40%;
   margin-left: -180px;
   z-index: 5;
   background-color: #fff;
-  opacity: 0.8;
+  opacity: 0.9;
   padding: 5px;
   border: 1px solid #999;
+}
+
+.radio_btn input{
+  height: 10px;
 }
 
 #timeslider {
@@ -26,14 +30,14 @@ html, body, #map-canvas {
   opacity: 0.8;
   /*padding: 5px;*/
   border: 1px solid #999;
-  /*height: 10px;*/
+  height: 10px;
 }
 
-/*#timeslider .ui-slider-horizontal {
+.ui-slider-horizontal {
     height: 8px;
     width: 200px;
 }
-#timeslider .ui-slider .ui-slider-handle {
-    height: 15px;
+.ui-slider .ui-slider-handle {
+    height: 10px;
     width: 5px;
-}*/
+}
