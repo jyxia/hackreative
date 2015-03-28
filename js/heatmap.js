@@ -1,5 +1,4 @@
 
-
 var Store = function(id, latitude, longitude, sales) {
     this.id = id;
     this.latitude = latitude;
@@ -103,12 +102,12 @@ var setmap = function(map, data) {
     // var heatmap = heatmapObj.heatmap;
     // var pointArray = new google.maps.MVCArray();
     map.pointArray = [];
-
+    map.heatmap.setMap(null);
     map.pointArray = new google.maps.MVCArray(data);
     map.heatmap = new google.maps.visualization.HeatmapLayer({
         data: map.pointArray
     });
-    map.heatmap.set('radius', map.heatmap.get('radius') ? null : 28);
+    map.heatmap.set('radius', map.heatmap.get('radius') ? null : 25);
     map.heatmap.setMap(map.map);
 };
 
@@ -130,7 +129,6 @@ var finishparsing = function(map, stores) {
         var gmapslocaiton = locationDataToGMapData(stores[i].latitude, stores[i].longitude, stores[i].sales);
         storeLocations.push(gmapslocaiton);
     }
-
     // console.log(storeLocations);
     google.maps.event.addDomListener(window, 'load', function() {
         setmap(map, storeLocations);
@@ -148,7 +146,7 @@ var setSlider = function (map, filter) {
       step: 1,
       slide: function( event, ui ) {
         var url;           
-        console.log(ui.value);
+        // console.log(ui.value);
         var slideValue = ui.value;
         switch (ui.value) {
             case 0:
@@ -224,6 +222,9 @@ var determineWeight = function(data, filter) {
 };
 
 $( document ).ready(function() {
+    $.ajaxSetup({
+        cache: false
+    });
     var $sales_btn = $("#sales_btn");
     var $visits_btn = $("#visits_btn");
     var $quantity_btn = $("#quantity_btn");
@@ -263,6 +264,3 @@ $( document ).ready(function() {
         setSlider(datamap, filter);
     });
 });
-
-
-
