@@ -1,0 +1,5 @@
+on: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html/WordPressversion: 0.0

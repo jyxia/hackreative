@@ -10,6 +10,23 @@ var Store = function(id, latitude, longitude, sales) {
     this.sales = sales;
 };
 
+// Map object for the entire map
+var DataMap = function () {
+    var mapOptions = {
+        zoom: 10,
+        center: new google.maps.LatLng(35.228958, -80.843817),
+        // mapTypeId: google.maps.MapTypeId.SATELLITE
+    };
+
+    this.map = new google.maps.Map(document.getElementById('map-canvas'),
+          mapOptions);
+    this.pointArray = new google.maps.MVCArray();
+    this.heatmap = new google.maps.visualization.HeatmapLayer({
+        data: this.pointArray
+    });
+
+};
+
 // convert a location to Google location
 var locationDataToGMapData = function (latitude, longitude, sales) {
     return { location: new google.maps.LatLng(latitude, longitude), weight: sales };
@@ -25,24 +42,6 @@ var generateMap = function () {
 
     return new google.maps.Map(document.getElementById('map-canvas'),
           mapOptions);
-};
-
-// Map object for the entire map
-var DataMap = function () {
-    var mapOptions = {
-        zoom: 10,
-        center: new google.maps.LatLng(35.116753, -80.82477),
-        // mapTypeId: google.maps.MapTypeId.SATELLITE
-    };
-
-    this.map = new google.maps.Map(document.getElementById('map-canvas'),
-          mapOptions);
-    // this.pointArray, this.heatmap;
-    this.pointArray = new google.maps.MVCArray();
-    this.heatmap = new google.maps.visualization.HeatmapLayer({
-        data: this.pointArray
-    });
-
 };
 
 // Heatmap object
@@ -206,10 +205,13 @@ var changeGradient = function() {
   heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
 };
 
+// real js loads here
 $( document ).ready(function() {
     $.ajaxSetup({
         cache: false
     });
+
+    // UI elememts
     var $sales_btn = $("#sales_btn");
     var $visits_btn = $("#visits_btn");
     var $quantity_btn = $("#quantity_btn");
@@ -218,13 +220,15 @@ $( document ).ready(function() {
     var $radioButtons = $("#radio");
     $radioButtons.buttonset();
 
+    // default json url
     var initJSONurl = "./data/data09.json";
-    // var map = generateMap();
+
     var datamap = new DataMap();
     var filter = "sum_sales";
     storesJSONToMap(datamap, initJSONurl, filter, finishparsing);
     setSlider(datamap, filter);
 
+    // bind click events with buttons
     $sales_btn.on("click", function() {
         filter = "sum_sales";
         storesJSONToMap(datamap, initJSONurl, filter, refreshData);
