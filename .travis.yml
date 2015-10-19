@@ -1,6 +1,6 @@
 deploy:
       - provider: s3
-        ⋮ # rest of S3 deployment for MyApp.zip
+        :# rest of S3 deployment for MyApp.zip
       - provider: codedeploy
         access_key_id: "AKIAITHWFWZABFH4I6HQ"
         secret_access_key: "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"
